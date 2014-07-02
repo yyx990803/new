@@ -10,7 +10,7 @@ var cwd = process.cwd()
 
 var templatesPath = path.relative(cwd, path.join(
     process.env.NEW_TEMPLATE_PATH || path.join(process.env.HOME, '_templates'),
-    process.env.NEW_DEFAULT_TEMPLATE || 'default'
+    process.argv[2] || 'default'
 ))
 
 var builder = new Metalsmith(cwd)
