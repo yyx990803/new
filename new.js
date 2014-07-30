@@ -14,9 +14,7 @@ var templatesPath = path.relative(cwd, path.join(
 ))
 
 var builder = new Metalsmith(cwd)
-    .clean(false)
     .source(templatesPath)
-    .destination('.')
     .use(ask)
     .use(template)
     .build(function (err) {
@@ -28,6 +26,7 @@ function ask (files, builder, done) {
         'project name': function (val) {
             val = val || 'new-project'
             builder.metadata().name = val
+            builder.destination(val)
         }
     }
 
@@ -52,7 +51,7 @@ function template (files, builder, done) {
         render(str, meta, function (err, res) {
             if (err) return done(err)
             files[file].contents = new Buffer(res)
-            console.log('  render: ' + file)
+            console.log('  render: ' + meta.name + '/' + file)
             done()
         })
     }
